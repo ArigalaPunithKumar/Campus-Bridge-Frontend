@@ -13,16 +13,27 @@
     --shadow-hover: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
 }
 
+/* =========================================
+   GLOBAL RESET
+   ========================================= */
 body {
+    margin: 0;
+    padding: 0;
     font-family: 'Outfit', sans-serif;
     background: #f0f4f8;
     background-image:
         radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
         radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+
+    /* DEFAULT: Hidden overflow for Desktop App feel */
     overflow: hidden;
+    height: 100vh;
+    width: 100vw;
 }
 
-/* --- CONTAINER --- */
+/* =========================================
+   LAYOUT CONTAINER
+   ========================================= */
 .faculty-dashboard-container {
     display: flex;
     height: 100vh;
@@ -30,7 +41,9 @@ body {
     background: transparent;
 }
 
-/* --- SIDEBAR --- */
+/* =========================================
+   SIDEBAR
+   ========================================= */
 .faculty-sidebar {
     width: 280px;
     background: #1e1b4b;
@@ -95,6 +108,7 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .menu-item:hover {
@@ -118,12 +132,16 @@ body {
     background: rgba(244, 63, 94, 0.1);
 }
 
-/* --- MAIN CONTENT --- */
+/* =========================================
+   MAIN CONTENT AREA
+   ========================================= */
 .faculty-main {
     flex: 1;
     padding: 2rem 3rem;
     overflow-y: auto;
+    /* SCROLLS HERE ON DESKTOP */
     position: relative;
+    height: 100%;
 }
 
 .faculty-header {
@@ -131,6 +149,8 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .faculty-header h2 {
@@ -159,10 +179,12 @@ body {
     border: 4px solid white;
 }
 
-/* --- STATS CARDS --- */
+/* =========================================
+   STATS CARDS
+   ========================================= */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
 }
@@ -226,7 +248,9 @@ body {
     font-weight: 500;
 }
 
-/* --- FORMS & SECTIONS --- */
+/* =========================================
+   FORMS & SECTIONS
+   ========================================= */
 .section-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -316,7 +340,9 @@ body {
     filter: brightness(1.1);
 }
 
-/* --- COURSE CARDS --- */
+/* =========================================
+   COURSE CARDS
+   ========================================= */
 .courses-grid-view {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -366,12 +392,25 @@ body {
     display: inline-block;
 }
 
-/* --- TABLES --- */
+/* =========================================
+   TABLES (New Wrapper)
+   ========================================= */
+
+/* IMPORTANT: Wrap your <table> in a <div class="table-container"> in React */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    /* Allows table to scroll sideways on mobile */
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
 .dashboard-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0 10px;
-    /* Space between rows */
+    min-width: 600px;
+    /* Forces scroll on mobile */
 }
 
 .dashboard-table th {
@@ -380,6 +419,7 @@ body {
     color: #64748b;
     font-weight: 600;
     font-size: 0.9rem;
+    white-space: nowrap;
 }
 
 .dashboard-table tr {
@@ -391,6 +431,8 @@ body {
 .dashboard-table td {
     padding: 1.2rem 1.5rem;
     color: #334155;
+    white-space: nowrap;
+    /* Prevents awkward text wrapping */
 }
 
 .dashboard-table tr td:first-child {
@@ -428,7 +470,9 @@ body {
     color: #991b1b;
 }
 
-/* --- SCHEDULE LIST --- */
+/* =========================================
+   SCHEDULE LIST
+   ========================================= */
 .schedule-list {
     display: flex;
     flex-direction: column;
@@ -490,38 +534,81 @@ body {
     font-size: 0.9rem;
 }
 
-/* --- RESPONSIVE --- */
+/* =========================================
+   MOBILE RESPONSIVENESS (FIXED)
+   ========================================= */
 @media (max-width: 768px) {
-    .faculty-dashboard-container {
-        flex-direction: column;
+
+    /* 1. Unlock Body Scroll */
+    body {
         overflow-y: auto;
+        height: auto;
     }
 
+    /* 2. Stack the layout */
+    .faculty-dashboard-container {
+        flex-direction: column;
+        height: auto;
+        /* Let content dictate height */
+        width: 100%;
+        overflow: visible;
+    }
+
+    /* 3. Horizontal Sidebar (Top Nav) */
     .faculty-sidebar {
         width: 100%;
         height: auto;
         padding: 1rem;
+        flex-shrink: 0;
     }
 
-    .faculty-sidebar.closed {
-        display: none;
+    .logo {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
     }
 
     .sidebar-menu {
         flex-direction: row;
         overflow-x: auto;
+        /* Horizontal Scroll */
         padding-bottom: 10px;
+        gap: 10px;
+        /* Hide scrollbar for cleaner look */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    .sidebar-menu::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Opera */
     }
 
     .menu-item {
         white-space: nowrap;
+        padding: 10px 15px;
+        font-size: 0.9rem;
     }
 
+    /* 4. Main Content Adjustments */
     .faculty-main {
         padding: 1.5rem;
+        height: auto;
+        overflow: visible;
+    }
+
+    .faculty-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .stats-grid {
         grid-template-columns: 1fr;
+        /* 1 card per row */
+    }
+
+    .card-form {
+        padding: 1.5rem;
     }
 }
