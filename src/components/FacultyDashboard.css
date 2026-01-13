@@ -1,0 +1,614 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --secondary-gradient: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+    --success-gradient: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    --danger-gradient: linear-gradient(135deg, #ef4444 0%, #f43f5e 100%);
+
+    --bg-main: #f8fafc;
+    --glass-white: rgba(255, 255, 255, 0.95);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+    --shadow-soft: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 20px 40px -10px rgba(99, 102, 241, 0.2);
+}
+
+/* =========================================
+   GLOBAL RESET
+   ========================================= */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    background: #f0f4f8;
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+
+    /* DEFAULT: Hidden overflow for Desktop App feel */
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* =========================================
+   LAYOUT CONTAINER
+   ========================================= */
+.faculty-dashboard-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background: transparent;
+}
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+.faculty-sidebar {
+    width: 280px;
+    background: #1e1b4b;
+    /* Deep Indigo */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+    z-index: 50;
+    transition: width 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Sidebar Ambient Glow */
+.faculty-sidebar::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 2;
+}
+
+.brand-highlight {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    z-index: 2;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: 16px;
+    color: #94a3b8;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    transform: translateX(5px);
+}
+
+.menu-item.active {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+.menu-item.logout {
+    margin-top: auto;
+    color: #f43f5e;
+}
+
+.menu-item.logout:hover {
+    background: rgba(244, 63, 94, 0.1);
+}
+
+/* =========================================
+   MAIN CONTENT AREA
+   ========================================= */
+.faculty-main {
+    flex: 1;
+    padding: 2rem 3rem;
+    overflow-y: auto;
+    /* SCROLLS HERE ON DESKTOP */
+    position: relative;
+    height: 100%;
+}
+
+.faculty-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.faculty-header h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #64748b;
+    font-size: 1.1rem;
+}
+
+.avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+    border: 4px solid white;
+}
+
+/* =========================================
+   STATS CARDS
+   ========================================= */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--glass-white);
+    padding: 2rem;
+    border-radius: 24px;
+    border: var(--glass-border);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-card:hover::after {
+    transform: scaleX(1);
+}
+
+.stat-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    font-size: 1.8rem;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1;
+}
+
+.stat-card p {
+    color: #64748b;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* =========================================
+   FORMS & SECTIONS
+   ========================================= */
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card-form {
+    background: var(--glass-white);
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow-soft);
+    border: var(--glass-border);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.form-header h3 {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.form-header p {
+    color: #64748b;
+    margin-bottom: 2rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 2px solid #e2e8f0;
+    background: #f8fafc;
+    font-size: 1rem;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #6366f1;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    align-items: end;
+}
+
+/* --- BUTTONS --- */
+.btn-primary,
+.submit-btn,
+.save-btn {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+}
+
+.btn-primary:hover,
+.submit-btn:hover,
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.6);
+    filter: brightness(1.1);
+}
+
+/* =========================================
+   COURSE CARDS
+   ========================================= */
+.courses-grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.course-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.course-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--secondary-gradient);
+}
+
+.course-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-hover);
+}
+
+.course-header h4 {
+    font-size: 1.3rem;
+    margin: 0;
+    color: #1e293b;
+}
+
+.code-badge {
+    background: #eff6ff;
+    color: #3b82f6;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+/* =========================================
+   TABLES (New Wrapper)
+   ========================================= */
+
+/* IMPORTANT: Wrap your <table> in a <div class="table-container"> in React */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    /* Allows table to scroll sideways on mobile */
+    margin-bottom: 20px;
+    border-radius: 12px;
+}
+
+.dashboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    min-width: 600px;
+    /* Forces scroll on mobile */
+}
+
+.dashboard-table th {
+    text-align: left;
+    padding: 0 1.5rem;
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.dashboard-table tr {
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s;
+}
+
+.dashboard-table td {
+    padding: 1.2rem 1.5rem;
+    color: #334155;
+    white-space: nowrap;
+    /* Prevents awkward text wrapping */
+}
+
+.dashboard-table tr td:first-child {
+    border-radius: 12px 0 0 12px;
+}
+
+.dashboard-table tr td:last-child {
+    border-radius: 0 12px 12px 0;
+}
+
+.dashboard-table tr:hover {
+    transform: scale(1.01);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-badge.present,
+.status-badge.graded {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.absent {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* =========================================
+   SCHEDULE LIST
+   ========================================= */
+.schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.schedule-item {
+    display: flex;
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s;
+}
+
+.schedule-item:hover {
+    transform: translateX(10px);
+}
+
+.time-col {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+}
+
+.time-col .day {
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.time-col .time {
+    font-size: 1.2rem;
+}
+
+.info-col {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.info-col h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #1e293b;
+}
+
+.info-col .meta {
+    display: flex;
+    gap: 15px;
+    color: #64748b;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   MOBILE RESPONSIVENESS (FIXED)
+   ========================================= */
+@media (max-width: 768px) {
+
+    /* 1. Unlock Body Scroll */
+    body {
+        overflow-y: auto;
+        height: auto;
+    }
+
+    /* 2. Stack the layout */
+    .faculty-dashboard-container {
+        flex-direction: column;
+        height: auto;
+        /* Let content dictate height */
+        width: 100%;
+        overflow: visible;
+    }
+
+    /* 3. Horizontal Sidebar (Top Nav) */
+    .faculty-sidebar {
+        width: 100%;
+        height: auto;
+        padding: 1rem;
+        flex-shrink: 0;
+    }
+
+    .logo {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .sidebar-menu {
+        flex-direction: row;
+        overflow-x: auto;
+        /* Horizontal Scroll */
+        padding-bottom: 10px;
+        gap: 10px;
+        /* Hide scrollbar for cleaner look */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    .sidebar-menu::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari, Opera */
+    }
+
+    .menu-item {
+        white-space: nowrap;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    /* 4. Main Content Adjustments */
+    .faculty-main {
+        padding: 1.5rem;
+        height: auto;
+        overflow: visible;
+    }
+
+    .faculty-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        /* 1 card per row */
+    }
+
+    .card-form {
+        padding: 1.5rem;
+    }
+}

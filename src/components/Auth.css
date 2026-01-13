@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-/* GLOBAL RESET */
+/* =========================================
+   GLOBAL RESET & BODY
+   ========================================= */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -15,24 +17,31 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  overflow: hidden;
+  /* changed from height to min-height to allow scrolling on mobile */
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-/* --- MAIN CONTAINER --- */
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
 .auth-container {
   /* MBU Branding Colors: Deep Blue & Purple Gradient */
   background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
 }
 
-/* --- BRANDING HEADER (Top Left) --- */
+/* =========================================
+   BRANDING HEADER (Top Left)
+   ========================================= */
 .brand-header {
   position: absolute;
   top: 30px;
@@ -67,7 +76,9 @@ body {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* --- AUTH CARD WRAPPER --- */
+/* =========================================
+   AUTH CARD WRAPPER
+   ========================================= */
 .auth-wrapper {
   background: #fff;
   border-radius: 20px;
@@ -80,7 +91,9 @@ body {
   display: flex;
 }
 
-/* --- FORM CONTAINERS --- */
+/* =========================================
+   FORM CONTAINERS
+   ========================================= */
 .form-container {
   position: absolute;
   top: 0;
@@ -139,7 +152,9 @@ body {
   }
 }
 
-/* --- FORM ELEMENTS --- */
+/* =========================================
+   FORM ELEMENTS
+   ========================================= */
 .auth-form {
   background-color: #ffffff;
   display: flex;
@@ -215,7 +230,9 @@ select:focus {
   appearance: none;
 }
 
-/* --- BUTTONS --- */
+/* =========================================
+   BUTTONS
+   ========================================= */
 button.primary-btn,
 button.ghost {
   border-radius: 50px;
@@ -258,7 +275,9 @@ button.ghost:hover {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-/* --- LINKS --- */
+/* =========================================
+   LINKS & TEXT
+   ========================================= */
 .forgot-password-link {
   margin: 15px 0;
   color: #1e3c72;
@@ -287,7 +306,6 @@ button.ghost:hover {
   color: #2d3748;
 }
 
-/* --- OTP & TIMER TEXT --- */
 .timer-text {
   margin-bottom: 15px;
   font-size: 0.9rem;
@@ -301,7 +319,19 @@ button.ghost:hover {
   text-decoration: underline;
 }
 
-/* --- OVERLAY PANEL (Sliding Effect) --- */
+/* Mobile Switch Link (Hidden on Desktop) */
+.mobile-switch {
+  display: none;
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #1e3c72;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* =========================================
+   OVERLAY PANEL (Sliding Effect)
+   ========================================= */
 .overlay-container {
   position: absolute;
   top: 0;
@@ -383,64 +413,111 @@ button.ghost:hover {
   transform: translateX(20%);
 }
 
-/* --- MOBILE RESPONSIVENESS --- */
+/* =========================================
+   MOBILE RESPONSIVENESS
+   ========================================= */
 @media (max-width: 768px) {
+
+  /* 1. Header Fix: Stack vertically */
   .brand-header {
-    top: 20px;
-    left: 20px;
+    position: relative;
+    top: auto;
+    left: auto;
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 
   .brand-text h2 {
-    font-size: 1.1rem;
-  }
-
-  .brand-text span {
-    font-size: 0.8rem;
+    font-size: 1.2rem;
   }
 
   .uni-icon {
     font-size: 2rem;
   }
 
+  /* 2. Wrapper Fix: Full width card, flexible height */
+  .auth-wrapper {
+    min-height: 500px;
+    height: auto;
+    width: 100%;
+    max-width: 400px;
+    /* Looks like a card on phone */
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+
+  /* 3. Hide Sliding Overlay on Mobile */
   .overlay-container {
     display: none !important;
+  }
+
+  /* 4. Reset Form Containers to fill the card */
+  .form-container {
+    position: relative;
+    width: 100% !important;
+    height: auto;
+    top: 0;
+    left: 0;
+    transform: none !important;
+    padding: 20px;
+  }
+
+  /* 5. DEFAULT STATE: Show Sign In */
+  .sign-in-container {
+    display: flex !important;
+    opacity: 1;
+    z-index: 5;
   }
 
   .sign-up-container {
     display: none !important;
   }
 
+  /* 6. SWITCHED STATE: When 'right-panel-active' is present */
+
+  /* Hide Sign In */
   .auth-wrapper.right-panel-active .sign-in-container {
     display: none !important;
   }
 
+  /* Show Sign Up */
   .auth-wrapper.right-panel-active .sign-up-container {
     display: flex !important;
     opacity: 1 !important;
+    animation: fadeIn 0.5s;
     transform: none !important;
-    z-index: 5 !important;
+    /* Disable sliding transform */
   }
 
-  .form-container {
-    width: 100% !important;
-    padding: 30px 20px;
-    position: relative !important;
-    transform: none !important;
+  /* 7. Input & Button Sizing */
+  input,
+  select {
+    padding: 15px;
+    font-size: 16px;
+    /* Prevents auto-zoom on iOS */
   }
 
-  .auth-wrapper {
-    min-height: auto;
-    height: auto;
-    padding-bottom: 30px;
-    margin-top: 80px;
+  button.primary-btn {
+    width: 100%;
+    padding: 15px;
   }
 
+  /* 8. Show Mobile Switch Text */
   .mobile-switch {
-    display: block;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #1e3c72;
-    cursor: pointer;
-    text-align: center;
+    display: block !important;
+  }
+}
+
+/* Simple fade animation for mobile switching */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
